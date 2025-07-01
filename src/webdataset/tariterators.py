@@ -10,6 +10,7 @@
 import random
 import re
 import tarfile
+import os
 from typing import Any, Callable, Dict, Iterable, Iterator, Optional, Set, Tuple
 
 import braceexpand
@@ -29,12 +30,15 @@ def base_plus_ext(path):
         path: Path with extensions.
 
     Returns:
-        Tuple containing the base path and all extensions.
+        Tuple containing the file path and the final extension
     """
     match = re.match(r"^((?:.*/|)[^.]+)[.]([^/]*)$", path)
     if not match:
         return None, None
-    return match.group(1), match.group(2)
+    else:
+        base = os.path.splitext(path)[0]
+        ext = os.path.splitext(path)[1][1:]
+        return base, ext
 
 
 def valid_sample(sample: Dict[str, Any]) -> bool:
